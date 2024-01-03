@@ -1,0 +1,33 @@
+name: 'Run Wopee.bot'
+description: 'Run tests by Wopee Bot using docker container'
+
+inputs:
+  image:
+    description: 'Full path to Wopee image'
+    default: 'ghcr.io/autonomous-testing/wopee.bot:dev'
+    required: false
+
+  container_name:
+    description: 'Name for container within running wopee. It will be stopped first if it is already running.'
+    default: 'wopee-runner'
+    required: false
+
+  env_file:
+    description: 'Path to .env file relative to current working directory'
+    default: ''
+    required: false
+
+runs:
+  using: "composite"
+  steps:
+        
+    - name: Run Wopee using docker
+      shell: bash
+      env:
+        IMAGE: ${{ inputs.image }}
+        CONTAINER_NAME: ${{ inputs.container_name }}
+        ENV_FILE: ${{ inputs.env_file  }}
+        SECCOMP_PROFILE: ${{ github.action_path }}/seccomp_profile.json
+      run: |
+        bash ${{ github.action_path }}/run-wopee.sh \
+          
