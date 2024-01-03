@@ -21,7 +21,7 @@ runs:
   using: "composite"
   steps:
         
-    - name: Run Wopee using docker
+    - name: Run Wopee.bot using docker
       shell: bash
       env:
         IMAGE: ${{ inputs.image }}
@@ -29,5 +29,5 @@ runs:
         ENV_FILE: ${{ inputs.env_file  }}
         SECCOMP_PROFILE: ${{ github.action_path }}/seccomp_profile.json
       run: |
-        bash ${{ github.action_path }}/run-wopee.sh \
+        bash ${{ github.action_path }}/wopee.bot.sh \
           
