@@ -12,6 +12,12 @@ if [ -z ${CONTAINER_NAME+x} ]; then
 fi
 echo "CONTAINER_NAME: $CONTAINER_NAME"
 
+if [ -z ${WORKING_DIRECTORY+x} ]; then
+    echo "Warning: WORKING_DIRECTORY not set, using default"
+    export WORKING_DIRECTORY=wopee-runner
+fi
+echo "WORKING_DIRECTORY: $WORKING_DIRECTORY"
+
 if ! [ -f $ENV_FILE ] || [ "$ENV_FILE" == "" ]; then
     echo "Warning: File '$ENV_FILE' does not exist."
     echo "ENV_FILE_NOT_SET=true" > .env_file_not_set.env
@@ -35,6 +41,8 @@ docker run --rm \
     --name $CONTAINER_NAME \
     --env-file <(env | sed '/^PATH=/d;/^HOME=/d;/^USER=/d;/^_=/d') \
     --env-file $ENV_FILE \
+    --volume $(pwd)/$WORKING_DIRECTORY:/home/$WORKING_DIRECTORY \
+    --workdir /home/$WORKING_DIRECTORY \
     --ipc=host \
     --network=host \
     --security-opt seccomp=$SECCOMP_PROFILE \
