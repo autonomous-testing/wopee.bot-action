@@ -37,13 +37,15 @@ docker ps -q --filter "name=$CONTAINER_NAME" | grep -q . && docker stop $CONTAIN
 
 docker pull ${IMAGE}
 
+# set workdir writable for others
+chmod o+w $(pwd)/$WORKING_DIRECTORY
+
 docker run --rm \
     --name $CONTAINER_NAME \
     --env-file <(env | sed '/^PATH=/d;/^HOME=/d;/^USER=/d;/^_=/d') \
     --env-file $ENV_FILE \
     --volume $(pwd)/$WORKING_DIRECTORY:/home/$WORKING_DIRECTORY \
     --workdir /home/$WORKING_DIRECTORY \
-    --user $(id -u):$(id -g) \
     --ipc=host \
     --network=host \
     --security-opt seccomp=$SECCOMP_PROFILE \
