@@ -37,8 +37,12 @@ docker ps -q --filter "name=$CONTAINER_NAME" | grep -q . && docker stop $CONTAIN
 
 docker pull ${IMAGE}
 
+# check permissions
+ls -laR
 # set workdir writable for others
 chmod o+w $(pwd)/$WORKING_DIRECTORY
+# check permissions
+ls -laR
 
 docker run --rm \
     --name $CONTAINER_NAME \
@@ -50,3 +54,10 @@ docker run --rm \
     --network=host \
     --security-opt seccomp=$SECCOMP_PROFILE \
     ${IMAGE}
+
+# check permissions
+ls -laR
+# set workdir writable for others rucursively
+chmod o+w -R $(pwd)/$WORKING_DIRECTORY
+# check permissions
+ls -laR
