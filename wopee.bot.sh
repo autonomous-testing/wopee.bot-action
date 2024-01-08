@@ -43,6 +43,7 @@ docker run --rm \
     --env-file $ENV_FILE \
     --volume $(pwd)/$WORKING_DIRECTORY:/home/$WORKING_DIRECTORY \
     --workdir /home/$WORKING_DIRECTORY \
+    --user $(id -u):$(id -g) \
     --ipc=host \
     --network=host \
     --security-opt seccomp=$SECCOMP_PROFILE \
