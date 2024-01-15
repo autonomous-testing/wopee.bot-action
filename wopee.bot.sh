@@ -41,11 +41,12 @@ docker run --rm \
     --name $CONTAINER_NAME \
     --env-file <(env | sed '/^PATH=/d;/^HOME=/d;/^USER=/d;/^_=/d') \
     --env-file $ENV_FILE \
+    --volume $(pwd)/$WORKING_DIRECTORY:/home/$WORKING_DIRECTORY \
     --workdir /home/$WORKING_DIRECTORY \
     --ipc=host \
     --network=host \
     --security-opt seccomp=$SECCOMP_PROFILE \
     ${IMAGE}
 
-# when user is not root add working dir volume to store outputs
-#    --volume $(pwd)/$WORKING_DIRECTORY:/home/$WORKING_DIRECTORY \
+# HACK: until container user is root need to change ownership of files created by container to be able to delete them later
+sudo chown -R $(id -u):$(id -g) $WORKING_DIRECTORY
