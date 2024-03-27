@@ -43,7 +43,6 @@ docker run --rm \
     --env-file $ENV_FILE \
     --volume $(pwd)/$WORKING_DIRECTORY:/home/$WORKING_DIRECTORY \
     --workdir /home/$WORKING_DIRECTORY \
-    --ipc=host \
     --network=host \
     --security-opt seccomp=$SECCOMP_PROFILE \
     ${IMAGE}
