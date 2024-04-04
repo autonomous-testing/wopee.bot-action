@@ -36,4 +36,9 @@ runs:
         SECCOMP_PROFILE: ${{ github.action_path }}/seccomp_profile.json
       run: |
         bash ${{ github.action_path }}/wopee.bot.sh \
+
+    - name: Fix permissions
+      shell: bash
+      if: always()
+      run: sudo chown -R $(id -u):$(id -g) $WORKING_DIRECTORY
           
