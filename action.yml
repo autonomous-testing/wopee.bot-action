@@ -40,5 +40,7 @@ runs:
     - name: Fix permissions
       shell: bash
       if: always()
+      env:
+        WORKING_DIRECTORY: ${{ inputs.working_directory }}
       run: sudo chown -R $(id -u):$(id -g) $WORKING_DIRECTORY
           
